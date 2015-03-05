@@ -1,0 +1,39 @@
+redis:
+  image: redis
+
+db:
+  build: dockerfiles/db
+  volumes:
+    - /var/lib/postgresql
+
+frontend:
+  build: dockerfiles/frontend
+  command: nodemon index.js
+  ports:
+    - "127.0.0.1:3000:3000"
+  volumes:
+   - apps/client-web:/app
+  working_dir: /app
+
+backend:
+  build: dockerfiles/backend
+  command: make run
+  links:
+    - db
+    - redis
+  ports:
+    - "127.0.0.1:8000:8000"
+  volumes:
+    - apps/server-core:/app
+  working_dir: /app
+
+sockets:
+  build: dockerfiles/sockets
+  command: foreman start
+  links:
+   - redis
+  ports:
+   - "127.0.0.1:5000:5000"
+  volumes:
+   - apps/socket-server:/app
+  working_dir: /app
