@@ -35,6 +35,12 @@ BE server is located at:			`8000`
 Then visit the running frontend application [http://127.0.0.1:3000](http://127.0.0.1:3000)
 Or the backend api application [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
+*Note if you are running this with boot2docker, ensure you have mapped your vm's ports are mapped correctly with:
+
+	VBoxManage controlvm boot2docker-vm natpf1 "node,tcp,127.0.0.1,3000,,3000"
+    VBoxManage controlvm boot2docker-vm natpf1 "flask,tcp,127.0.0.1,5000,,5000"
+    VBoxManage controlvm boot2docker-vm natpf1 "django,tcp,127.0.0.1,8000,,8000"
+
 Check out the `Makefile` in the repository root for all available commands.
 
 Stopping the app
